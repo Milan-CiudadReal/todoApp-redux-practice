@@ -2,20 +2,17 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useReducer } from 'react';
 import TodoList from './components/todoList/todoList';
-import { v4 as uuidv4 } from 'uuid';
 // import UserForm from './components/userForm/userForm'
 // import Github from './components/getData/github';
 
 const todosInitialState = {
-	todos: [
-		{ id: 1, text: 'finish writing hooks chapter' },
-		{ id: 2, text: 'play basketball' },
-		{ id: 3, text: 'study react hooks ' },
-	],
+	todos: [],
 };
 
 function todosReducer(state, action) {
 	switch (action.type) {
+		case 'get':
+			return { ...state, todos: action.payload };
 		case 'edit':
 			const updateTodo = { ...action.payload };
 			const updatedToDoIndex = state.todos.findIndex(
@@ -34,8 +31,7 @@ function todosReducer(state, action) {
 			);
 			return { ...state, todos: filteredTodoState };
 		case 'add':
-			const newTodo = { id: uuidv4(), text: action.payload };
-			const addedTodos = [...state.todos, newTodo];
+			const addedTodos = [...state.todos, action.payload];
 			return {
 				...state,
 				todos: addedTodos,
